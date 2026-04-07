@@ -213,7 +213,8 @@ async def websocket_endpoint(websocket: WebSocket, room_code: str):
 
     except WebSocketDisconnect:
         if player_id:
-            room.remove_player(player_id)
+            full_remove = not room.game_active
+            room.remove_player(player_id, full_remove=full_remove)
             opponent_id = room.get_opponent_id(player_id)
             if opponent_id and opponent_id in room.websockets:
                 try:

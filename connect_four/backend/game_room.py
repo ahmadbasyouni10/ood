@@ -51,8 +51,12 @@ class GameRoom:
             return True
         return False
 
-    def remove_player(self, player_id: str):
+    def remove_player(self, player_id: str, full_remove: bool = False):
         self.websockets.pop(player_id, None)
+        if full_remove and not self.game_active:
+            if player_id in self.player_order:
+                self.player_order.remove(player_id)
+            self.players.pop(player_id, None)
 
     def get_opponent_id(self, player_id: str) -> str | None:
         for pid in self.player_order:
