@@ -93,3 +93,26 @@ class Grid:
             if count == n:
                 return True
         return False
+
+    def find_winning_cells(self, n: int, row: int, col: int, piece: GridPosition) -> list[list[int]]:
+        directions = [(0, 1), (1, 0), (1, 1), (1, -1)]
+
+        for dr, dc in directions:
+            cells = [[row, col]]
+
+            r, c = row + dr, col + dc
+            while 0 <= r < self._rows and 0 <= c < self._cols and self._grid[r][c] == piece:
+                cells.append([r, c])
+                r += dr
+                c += dc
+
+            r, c = row - dr, col - dc
+            while 0 <= r < self._rows and 0 <= c < self._cols and self._grid[r][c] == piece:
+                cells.append([r, c])
+                r -= dr
+                c -= dc
+
+            if len(cells) >= n:
+                return cells[:n]
+
+        return []

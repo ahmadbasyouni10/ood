@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: connect-four
+    runtime: docker
+    plan: free
+    rootDir: connect_four
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: PORT
+        value: "10000"
