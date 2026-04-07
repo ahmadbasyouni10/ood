@@ -8,24 +8,17 @@ import GameBoard from "./components/GameBoard";
 import OnlineLobby from "./components/OnlineLobby";
 import Stats from "./components/Stats";
 
-const pageVariants = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -20 },
-};
-
 function Router() {
   const { state } = useGame();
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="popLayout">
       <motion.div
         key={state.screen}
-        variants={pageVariants}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        transition={{ duration: 0.3, ease: "easeInOut" }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
         className="min-h-screen"
       >
         {state.screen === "landing" && <Landing />}
