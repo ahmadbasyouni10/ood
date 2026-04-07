@@ -25,29 +25,29 @@ export default function Landing() {
     <div className="relative min-h-screen flex flex-col items-center justify-center p-4">
       <ParticleBackground />
 
-      <div className="absolute top-4 right-4 z-10 flex gap-2">
-        <ThemeToggle />
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => navigate("stats")}
-          className="px-4 py-2 rounded-xl bg-white/10 dark:bg-white/5
-            backdrop-blur-sm border border-white/20 dark:border-white/10
-            text-stone-700 dark:text-slate-300 text-sm font-medium"
-        >
-          Stats
-        </motion.button>
-      </div>
-
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="z-10 flex flex-col items-center gap-8 max-w-lg w-full"
+        className="z-10 flex flex-col items-center gap-6 sm:gap-8 max-w-lg w-full"
       >
+        <div className="w-full flex justify-end gap-2">
+          <ThemeToggle />
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => navigate("stats")}
+            className="px-4 py-2 rounded-xl bg-white/10 dark:bg-white/5
+              backdrop-blur-sm border border-white/20 dark:border-white/10
+              text-stone-700 dark:text-slate-300 text-sm font-medium"
+          >
+            Stats
+          </motion.button>
+        </div>
+
         <div className="text-center">
           <motion.h1
-            className="text-6xl sm:text-7xl font-black tracking-tight
+            className="text-5xl sm:text-7xl font-black tracking-tight
               bg-gradient-to-r from-red-500 via-yellow-500 to-red-500
               bg-clip-text text-transparent"
             animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
@@ -56,12 +56,12 @@ export default function Landing() {
           >
             Connect Four
           </motion.h1>
-          <p className="mt-2 text-stone-500 dark:text-slate-400 text-lg">
+          <p className="mt-2 text-stone-500 dark:text-slate-400 text-base sm:text-lg">
             Drop, connect, win.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 w-full">
           <ModeCard mode="local" label="Local" onClick={() => selectMode("local")} />
           <ModeCard mode="computer" label="Computer" onClick={() => selectMode("computer")} />
           <ModeCard mode="online" label="Online" onClick={() => selectMode("online")} />

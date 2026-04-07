@@ -9,10 +9,10 @@ export default function ThemeToggle() {
       onClick={toggle}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
-      className="w-10 h-10 rounded-full flex items-center justify-center
+      className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center
         bg-white/10 dark:bg-white/5 backdrop-blur-sm
         border border-white/20 dark:border-white/10
-        text-stone-600 dark:text-slate-300 text-lg"
+        text-stone-600 dark:text-slate-300 text-sm sm:text-lg shrink-0"
       aria-label="Toggle theme"
     >
       <motion.span

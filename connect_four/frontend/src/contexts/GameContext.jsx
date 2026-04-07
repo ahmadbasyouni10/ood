@@ -300,10 +300,7 @@ function gameReducer(state, action) {
     }
 
     case "RESET_ALL":
-      return {
-        ...initialState,
-        config: { ...defaultConfig },
-      };
+      return { ...initialState };
 
     case "SET_ROOM":
       return { ...state, roomCode: action.code };

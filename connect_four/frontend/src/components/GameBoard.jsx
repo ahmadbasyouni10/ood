@@ -196,10 +196,9 @@ export default function GameBoard() {
   }
 
   function handleMenu() {
-    if (isOnline) disconnect();
-    resetAll();
+    disconnect();
     document.title = "Connect Four";
-    navigate("landing");
+    resetAll();
   }
 
   function handleColChange(col) {
@@ -229,7 +228,7 @@ export default function GameBoard() {
     onLeft: handleLeft,
     onRight: handleRight,
     onDrop: handleKeyDrop,
-    onUndo: handleUndo,
+    onUndo: isOnline ? undefined : handleUndo,
     onRestart: isOnline ? undefined : restart,
     onEscape: () => setSettingsOpen(true),
     enabled: gameStatus === "playing" && !waitingForOpponent,
@@ -255,16 +254,16 @@ export default function GameBoard() {
         </div>
 
         <div className="bg-white/60 dark:bg-white/5 backdrop-blur-sm
-          rounded-2xl p-10 border border-white/30 dark:border-white/10
+          rounded-2xl p-8 sm:p-10 border border-white/30 dark:border-white/10
           text-center space-y-6 max-w-sm w-full">
-          <h2 className="text-xl font-bold text-stone-800 dark:text-slate-100">
+          <h2 className="text-lg sm:text-xl font-bold text-stone-800 dark:text-slate-100">
             Share this code with your friend
           </h2>
 
           <motion.div
             animate={{ scale: [1, 1.04, 1] }}
             transition={{ repeat: Infinity, duration: 2 }}
-            className="text-5xl font-black tracking-[0.3em]
+            className="text-4xl sm:text-5xl font-black tracking-[0.3em]
               text-stone-800 dark:text-slate-100 py-4"
           >
             {roomCode}
@@ -276,7 +275,7 @@ export default function GameBoard() {
             onClick={copyCode}
             className="px-8 py-2.5 rounded-xl text-sm font-medium bg-blue-500 text-white"
           >
-            {copied ? "✓ Copied!" : "Copy Code"}
+            {copied ? "Copied!" : "Copy Code"}
           </motion.button>
 
           <motion.p
@@ -304,22 +303,31 @@ export default function GameBoard() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen flex flex-col items-center justify-center p-4 gap-4"
+      className="min-h-screen flex flex-col items-center justify-center p-4 gap-3"
     >
       <div className="w-full max-w-xl relative z-10">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleMenu}
+              className="text-stone-400 dark:text-slate-500 text-xs sm:text-sm
+                hover:text-stone-600 dark:hover:text-slate-300 mr-1"
+            >
+              ← Menu
+            </motion.button>
             <ThemeToggle />
             <GameHistory />
           </div>
 
-          <div className="flex items-center gap-3 text-sm font-bold">
+          <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm font-bold">
             <motion.div
-              animate={{ scale: currentPlayer === 1 ? 1.15 : 0.9, opacity: currentPlayer === 1 ? 1 : 0.5 }}
-              className="flex items-center gap-1.5"
+              animate={{ scale: currentPlayer === 1 ? 1.1 : 0.9, opacity: currentPlayer === 1 ? 1 : 0.5 }}
+              className="flex items-center gap-1"
             >
-              <div className="w-4 h-4 rounded-full" style={{ backgroundColor: config.player1Color }} />
-              <span className="text-stone-700 dark:text-slate-200 hidden sm:inline">
+              <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full shrink-0" style={{ backgroundColor: config.player1Color }} />
+              <span className="text-stone-700 dark:text-slate-200 hidden sm:inline truncate max-w-[60px]">
                 {config.player1Name}
               </span>
               <span className="text-stone-800 dark:text-slate-100">{scores[0]}</span>
@@ -328,27 +336,27 @@ export default function GameBoard() {
             <span className="text-stone-300 dark:text-slate-600 text-xs">vs</span>
 
             <motion.div
-              animate={{ scale: currentPlayer === 2 ? 1.15 : 0.9, opacity: currentPlayer === 2 ? 1 : 0.5 }}
-              className="flex items-center gap-1.5"
+              animate={{ scale: currentPlayer === 2 ? 1.1 : 0.9, opacity: currentPlayer === 2 ? 1 : 0.5 }}
+              className="flex items-center gap-1"
             >
               <span className="text-stone-800 dark:text-slate-100">{scores[1]}</span>
-              <span className="text-stone-700 dark:text-slate-200 hidden sm:inline">
+              <span className="text-stone-700 dark:text-slate-200 hidden sm:inline truncate max-w-[60px]">
                 {config.player2Name}
               </span>
-              <div className="w-4 h-4 rounded-full" style={{ backgroundColor: config.player2Color }} />
+              <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full shrink-0" style={{ backgroundColor: config.player2Color }} />
             </motion.div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             {!isOnline && (
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={restart}
-                className="w-9 h-9 rounded-full flex items-center justify-center
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center
                   bg-white/10 dark:bg-white/5 backdrop-blur-sm
                   border border-white/20 dark:border-white/10
-                  text-stone-500 dark:text-slate-400 text-sm"
+                  text-stone-500 dark:text-slate-400 text-xs sm:text-sm"
                 title="Restart (R)"
               >
                 ↻
@@ -360,10 +368,10 @@ export default function GameBoard() {
                 whileTap={{ scale: 0.9 }}
                 onClick={undo}
                 disabled={state.moveHistory.length === 0 || gameStatus !== "playing"}
-                className="w-9 h-9 rounded-full flex items-center justify-center
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center
                   bg-white/10 dark:bg-white/5 backdrop-blur-sm
                   border border-white/20 dark:border-white/10
-                  text-stone-500 dark:text-slate-400 text-sm
+                  text-stone-500 dark:text-slate-400 text-xs sm:text-sm
                   disabled:opacity-30"
                 title="Undo (W)"
               >
@@ -374,10 +382,10 @@ export default function GameBoard() {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => setSettingsOpen(true)}
-              className="w-9 h-9 rounded-full flex items-center justify-center
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center
                 bg-white/10 dark:bg-white/5 backdrop-blur-sm
                 border border-white/20 dark:border-white/10
-                text-stone-500 dark:text-slate-400 text-sm"
+                text-stone-500 dark:text-slate-400 text-xs sm:text-sm"
               title="Settings (Esc)"
             >
               ⚙
@@ -396,7 +404,7 @@ export default function GameBoard() {
             key={currentPlayer}
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-3"
+            className="text-center mb-2"
           >
             <span className="text-sm font-medium text-stone-500 dark:text-slate-400">
               {isAiTurn
@@ -415,7 +423,7 @@ export default function GameBoard() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center mb-3 text-sm text-yellow-500"
+            className="text-center mb-2 text-sm text-yellow-500"
           >
             Opponent disconnected. Waiting {disconnectCountdown}s...
           </motion.div>
@@ -428,9 +436,11 @@ export default function GameBoard() {
           onColChange={handleColChange}
         />
 
-        <div className="text-center mt-3 text-xs text-stone-400 dark:text-slate-500">
-          A/D move · S drop · W undo · R restart
-        </div>
+        {!isOnline && (
+          <div className="text-center mt-2 text-xs text-stone-400 dark:text-slate-500">
+            A/D move · S drop · W undo · R restart
+          </div>
+        )}
       </div>
 
       <WinScreen onRematch={handleRematch} onMenu={handleMenu} />
